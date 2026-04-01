@@ -1,0 +1,12 @@
+[package]
+name = "repla"
+version = "0.0.1"
+edition = "2021"
+description = "Solana app-specific rollup framework for games."
+license = "Apache-2.0"
+
+[lib]
+name = "repla"
+path = "src/lib.rs"
+
+[dependencies]
