@@ -1,7 +1,13 @@
 # REPLA
 
-Solana app-specific rollup framework for games. Work in progress.
+**Solana app-specific rollup framework for games.**
 
-The goal: a small, opinionated framework that sits on top of MagicBlock's Ephemeral Rollup primitive so a game team can spin up a game-specific L3 without rebuilding the runtime, the settler, and the engine bindings from scratch.
+A small, opinionated framework on top of MagicBlock's Ephemeral Rollup primitive. The crate ships:
 
-Apache-2.0. More to come.
+- A canonical `Action` / `StateDelta` wire format (Borsh, length-prefixed SHA-256 root).
+- A `compute_state_root` contract that the TypeScript SDK has to match byte-for-byte.
+- A `compute` function for the buyback-and-burn fee split.
+
+The sequencer runtime, the on-chain settler client, and the engine SDKs land in later milestones.
+
+Apache-2.0.
