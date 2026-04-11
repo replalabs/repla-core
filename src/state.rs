@@ -10,3 +10,12 @@ pub struct Action {
     pub payload: Vec<u8>,
     pub slot_hint: u64,
 }
+
+#[derive(Debug, Clone, BorshSerialize, BorshDeserialize, Serialize, Deserialize)]
+pub struct StateDelta {
+    pub l3_id: L3Id,
+    pub from_slot: u64,
+    pub to_slot: u64,
+    pub state_root: [u8; 32],
+    pub action_count: u32,
+}
