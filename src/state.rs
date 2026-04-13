@@ -19,3 +19,26 @@ pub struct StateDelta {
     pub state_root: [u8; 32],
     pub action_count: u32,
 }
+
+impl StateDelta {
+    pub fn slot_range(&self) -> u64 {
+        self.to_slot.saturating_sub(self.from_slot) + 1
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn slot_range_inclusive() {
+        let d = StateDelta {
+            l3_id: [0u8; 32],
+            from_slot: 10,
+            to_slot: 19,
+            state_root: [0u8; 32],
+            action_count: 0,
+        };
+        assert_eq!(d.slot_range(), 10);
+    }
+}
