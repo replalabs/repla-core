@@ -3,4 +3,4 @@
 pub mod hash;
 pub mod state;
 
-pub use state::Action;
+pub use state::{Action, StateDelta};
