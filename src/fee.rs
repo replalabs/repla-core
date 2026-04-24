@@ -28,3 +28,30 @@ pub fn compute(cfg: FeeConfig, action_count: u32) -> FeeSplit {
     let sequencer = total.saturating_sub(burn);
     FeeSplit { total, burn, sequencer }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn split_default_is_50_50() {
+        let s = compute(FeeConfig::default(), 100);
+        assert_eq!(s.total, 100_000);
+        assert_eq!(s.burn, 50_000);
+        assert_eq!(s.sequencer, 50_000);
+    }
+
+    #[test]
+    fn burn_zero_when_bps_zero() {
+        let s = compute(FeeConfig { per_action_lamports: 1_000, buyback_bps: 0 }, 10);
+        assert_eq!(s.burn, 0);
+        assert_eq!(s.sequencer, 10_000);
+    }
+
+    #[test]
+    fn burn_total_when_bps_max() {
+        let s = compute(FeeConfig { per_action_lamports: 1_000, buyback_bps: 10_000 }, 10);
+        assert_eq!(s.burn, 10_000);
+        assert_eq!(s.sequencer, 0);
+    }
+}
