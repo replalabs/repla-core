@@ -1,3 +1,7 @@
+//! On-chain settler client. Builds the wire-format payload for `settle_state` so a
+//! signer can submit the instruction with their wallet. Network access is intentionally
+//! out of scope -- pair this with `solana-sdk` for live submission.
+
 use borsh::BorshSerialize;
 use serde::{Deserialize, Serialize};
 
@@ -39,4 +43,27 @@ pub fn build_settle_args(
         state_root,
         action_count,
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn rejects_non_monotonic() {
+        let r = build_settle_args([0u8; 32], 100, 200, [0u8; 32], 1, 100);
+        assert!(matches!(r, Err(SettleError::NonMonotonic { .. })));
+    }
+
+    #[test]
+    fn rejects_inverted_range() {
+        let r = build_settle_args([0u8; 32], 200, 100, [0u8; 32], 1, 0);
+        assert!(matches!(r, Err(SettleError::InvalidSlotRange { .. })));
+    }
+
+    #[test]
+    fn accepts_clean_args() {
+        let r = build_settle_args([0u8; 32], 101, 200, [0u8; 32], 1, 100);
+        assert!(r.is_ok());
+    }
 }
