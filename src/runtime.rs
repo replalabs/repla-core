@@ -6,6 +6,7 @@ use std::collections::VecDeque;
 use std::sync::Arc;
 use tokio::sync::RwLock;
 use tokio::time::{interval, Duration};
+use tracing::{debug, info};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SequencerConfig {
@@ -67,6 +68,12 @@ impl SequencerRuntime {
         let mut batch_payloads: Vec<Vec<u8>> = Vec::new();
         let mut batch_from: u64 = 1;
 
+        info!(
+            slot_time_ms = self.config.slot_time_ms,
+            settle_interval = self.config.settle_interval_slots,
+            "sequencer started"
+        );
+
         loop {
             ticker.tick().await;
             let slot = {
@@ -74,6 +81,7 @@ impl SequencerRuntime {
                 *s += 1;
                 *s
             };
+            debug!(slot, "tick");
 
             let drained: Vec<Action> = self.pending.write().await.drain(..).collect();
             for action in drained {
@@ -91,6 +99,7 @@ impl SequencerRuntime {
                     state_root: root,
                     action_count: batch_count,
                 };
+                info!(from = batch_from, to = slot, actions = batch_count, "emit delta");
                 if on_delta(delta).await.is_ok() {
                     *self.last_settled_slot.write().await = slot;
                 }
@@ -99,5 +108,23 @@ impl SequencerRuntime {
                 batch_from = slot + 1;
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn submit_then_pending_counts() {
+        let rt = SequencerRuntime::new(SequencerConfig::default());
+        rt.submit_action(Action {
+            l3_id: [0u8; 32],
+            actor: [1u8; 32],
+            payload: vec![1, 2, 3, 4],
+            slot_hint: 5,
+        })
+        .await;
+        assert_eq!(rt.pending_count().await, 1);
     }
 }
