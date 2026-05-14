@@ -1,14 +1,17 @@
 # REPLA
 
-**Solana app-specific rollup framework for games.**
+**Solana app-specific rollup framework for games. A workbench, not another chain.**
 
-A small, opinionated framework on top of MagicBlock's Ephemeral Rollup primitive. The crate now ships:
+REPLA sits on top of MagicBlock's Ephemeral Rollup primitive and gives game teams a sequencer runtime, an Anchor settler client, and the engine SDK surface. The reference crate is deliberately small: read it end-to-end in an afternoon.
 
-- A canonical `Action` / `StateDelta` wire format.
-- A length-prefixed SHA-256 state root, with a TypeScript-parity test.
-- `compute` for the sequencer / buyback-and-burn fee split.
-- A first cut of `SequencerRuntime` that owns slot cadence and batching.
+## What is in the crate
 
-The on-chain settler client and the engine SDKs land next.
+- `runtime` -- sequencer loop with deterministic batching.
+- `settler` -- on-chain settle-instruction argument builder.
+- `state` -- `Action` and `StateDelta` wire types.
+- `hash` -- canonical length-prefixed SHA-256 state root.
+- `fee` -- buyback-and-burn fee split.
+
+Engine SDKs (Unity / Unreal / Godot) and the `repla-cli` are shipped from the framework monorepo and depend on this crate as the canonical reference.
 
 Apache-2.0.
