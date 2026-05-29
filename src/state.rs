@@ -24,6 +24,32 @@ impl StateDelta {
     pub fn slot_range(&self) -> u64 {
         self.to_slot.saturating_sub(self.from_slot) + 1
     }
+
+    pub fn is_empty(&self) -> bool {
+        self.action_count == 0
+    }
+}
+
+/// Convenience: turn a 64-character hex string into the 32-byte L3 ID used as a PDA seed.
+pub fn l3_id_from_hex(hex: &str) -> Result<L3Id, &'static str> {
+    let s = hex.strip_prefix("0x").unwrap_or(hex);
+    if s.len() != 64 { return Err("expected 64 hex chars"); }
+    let mut out = [0u8; 32];
+    for (i, chunk) in s.as_bytes().chunks(2).enumerate() {
+        let hi = decode_nibble(chunk[0])?;
+        let lo = decode_nibble(chunk[1])?;
+        out[i] = (hi << 4) | lo;
+    }
+    Ok(out)
+}
+
+fn decode_nibble(c: u8) -> Result<u8, &'static str> {
+    match c {
+        b'0'..=b'9' => Ok(c - b'0'),
+        b'a'..=b'f' => Ok(10 + c - b'a'),
+        b'A'..=b'F' => Ok(10 + c - b'A'),
+        _ => Err("invalid hex digit"),
+    }
 }
 
 #[cfg(test)]
