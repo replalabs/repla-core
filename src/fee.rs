@@ -29,6 +29,25 @@ pub fn compute(cfg: FeeConfig, action_count: u32) -> FeeSplit {
     FeeSplit { total, burn, sequencer }
 }
 
+/// Reverse of `compute`: what action count would have produced this fee total?
+/// Useful for replay / accounting cross-checks against on-chain Settlement records.
+pub fn actions_for_total(cfg: FeeConfig, total: u64) -> u64 {
+    if cfg.per_action_lamports == 0 { return 0; }
+    total / cfg.per_action_lamports
+}
+
+/// Apply a registered fee config to an iterator of action batches and return the cumulative split.
+pub fn aggregate<I: IntoIterator<Item = u32>>(cfg: FeeConfig, batches: I) -> FeeSplit {
+    let mut sum = FeeSplit { total: 0, burn: 0, sequencer: 0 };
+    for n in batches {
+        let s = compute(cfg, n);
+        sum.total = sum.total.saturating_add(s.total);
+        sum.burn = sum.burn.saturating_add(s.burn);
+        sum.sequencer = sum.sequencer.saturating_add(s.sequencer);
+    }
+    sum
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
