@@ -1,9 +1,15 @@
 [package]
 name = "repla"
-version = "0.0.1"
+version = "0.1.0"
 edition = "2021"
-description = "Solana app-specific rollup framework for games -- MagicBlock sequencer runtime."
+description = "Solana app-specific rollup framework for games -- MagicBlock sequencer runtime + Anchor settler + engine SDKs."
 license = "Apache-2.0"
+repository = "https://github.com/replalabs/repla-core"
+homepage = "https://repla.fun"
+documentation = "https://repla.fun/docs"
+readme = "README.md"
+keywords = ["solana", "magicblock", "rollup", "l3", "anchor"]
+categories = ["development-tools", "web-programming", "game-development"]
 
 [lib]
 name = "repla"
@@ -28,3 +34,8 @@ clap = { version = "4.5", features = ["derive"] }
 [dev-dependencies]
 tokio = { version = "1.40", features = ["test-util", "macros"] }
 proptest = "1.5"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
