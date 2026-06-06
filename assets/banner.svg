@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="canvas" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#F0EAD6"/>
+      <stop offset="1" stop-color="#E6DFC6"/>
+    </linearGradient>
+    <radialGradient id="lamp" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFD93D" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#FFD93D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="640" fill="url(#canvas)"/>
+  <circle cx="320" cy="220" r="220" fill="url(#lamp)"/>
+  <rect x="120" y="430" width="1040" height="80" rx="6" fill="#3D2817"/>
+  <rect x="120" y="425" width="1040" height="10" fill="#2A1A0D"/>
+  <g transform="translate(220 320)">
+    <rect width="120" height="110" fill="#F5F2E8"/>
+    <rect width="120" height="10" fill="#FFD93D"/>
+    <rect x="10" y="20" width="14" height="14" fill="#FFB5C5"/>
+    <rect x="34" y="20" width="14" height="14" fill="#FFB5C5"/>
+    <rect x="58" y="20" width="14" height="14" fill="#FFB5C5"/>
+    <rect x="82" y="20" width="14" height="14" fill="#FFB5C5"/>
+    <rect x="10" y="48" width="14" height="14" fill="#FFD976"/>
+    <rect x="34" y="48" width="14" height="14" fill="#5BC0EB"/>
+    <rect x="58" y="48" width="14" height="14" fill="#FFD976"/>
+    <rect x="82" y="48" width="14" height="14" fill="#5BC0EB"/>
+    <circle cx="60" cy="-8" r="6" fill="#FFD93D"/>
+  </g>
+  <g transform="translate(420 280)">
+    <rect width="60" height="150" fill="#7CB07A"/>
+    <rect width="60" height="10" fill="#FFD93D"/>
+  </g>
+  <g transform="translate(510 300)">
+    <rect width="80" height="130" fill="#F5F2E8"/>
+    <rect width="80" height="8" fill="#FFD93D"/>
+  </g>
+  <g transform="translate(620 250)">
+    <rect width="100" height="180" fill="#3D2817"/>
+    <rect x="10" y="20" width="20" height="20" fill="#FFD93D"/>
+    <rect x="40" y="20" width="20" height="20" fill="#FFD93D"/>
+    <rect x="70" y="20" width="20" height="20" fill="#FFD93D"/>
+    <rect x="10" y="50" width="20" height="20" fill="#FFD976"/>
+    <rect x="40" y="50" width="20" height="20" fill="#FFD976"/>
+    <rect x="70" y="50" width="20" height="20" fill="#FFD976"/>
+  </g>
+  <g transform="translate(760 320)">
+    <rect width="70" height="110" fill="#FFB5C5"/>
+    <rect width="70" height="8" fill="#FFD93D"/>
+  </g>
+  <g transform="translate(860 300)">
+    <rect width="90" height="130" fill="#F5F2E8"/>
+    <rect width="90" height="8" fill="#FFD93D"/>
+    <rect x="10" y="18" width="14" height="14" fill="#5BC0EB"/>
+    <rect x="34" y="18" width="14" height="14" fill="#5BC0EB"/>
+    <rect x="58" y="18" width="14" height="14" fill="#5BC0EB"/>
+  </g>
+  <g transform="translate(990 350)">
+    <rect width="60" height="80" fill="#7CB07A"/>
+  </g>
+  <g transform="translate(120 510)">
+    <path d="M-20 -20 L40 -50 L60 -40 L0 -10 Z" fill="#D4AF37"/>
+    <line x1="0" y1="-10" x2="-20" y2="-20" stroke="#3D2817" stroke-width="2"/>
+  </g>
+  <text x="120" y="170" font-family="serif" font-size="96" fill="#3D2817" letter-spacing="-3">repla</text>
+  <text x="120" y="210" font-family="ui-monospace, monospace" font-size="18" fill="#3D2817" letter-spacing="2">Solana app-specific rollup framework for games</text>
+  <text x="120" y="600" font-family="ui-monospace, monospace" font-size="14" fill="#3D2817">repla.gg · Unity · Unreal · Godot · Anchor 0.31 · Solana mainnet</text>
+</svg>
