@@ -4,3 +4,11 @@ node_modules/
 .env
 .env.local
 *.log
+
+# Local-only generators that must never appear in the public repo.
+main.py
+generator.py
+builder.py
+scripts/build_grass.py
+.grass/
+.grass-config.json
