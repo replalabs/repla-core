@@ -1,97 +1,749 @@
 {
-  "version": "0.1.0",
-  "name": "repla_settler",
-  "address": "ReplaSettLerXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "address": "42LxZbUQHUSiBvuVzo1YtAxbjDbxLDLHNmQhyG5wabVV",
+  "metadata": {
+    "name": "repla_settler",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "REPLA Anchor settler -- settles L3 game state to Solana mainnet."
+  },
   "instructions": [
     {
       "name": "initialize_registry",
+      "discriminator": [
+        189,
+        181,
+        20,
+        17,
+        174,
+        57,
+        249,
+        59
+      ],
       "accounts": [
-        { "name": "registry", "isMut": true, "isSigner": false },
-        { "name": "admin", "isMut": true, "isSigner": true },
-        { "name": "system_program", "isMut": false, "isSigner": false }
+        {
+          "name": "registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
       ],
       "args": [
-        { "name": "fee_bps", "type": "u16" },
-        { "name": "buyback_bps", "type": "u16" },
-        { "name": "settle_lag", "type": "u64" },
-        { "name": "fee_per_action", "type": "u64" },
-        { "name": "min_stake", "type": "u64" }
-      ]
-    },
-    {
-      "name": "register_sequencer",
-      "accounts": [
-        { "name": "registry", "isMut": true, "isSigner": false },
-        { "name": "sequencer", "isMut": true, "isSigner": false },
-        { "name": "operator", "isMut": true, "isSigner": true },
-        { "name": "system_program", "isMut": false, "isSigner": false }
-      ],
-      "args": [
-        { "name": "stake_amount", "type": "u64" }
+        {
+          "name": "fee_bps",
+          "type": "u16"
+        },
+        {
+          "name": "buyback_bps",
+          "type": "u16"
+        },
+        {
+          "name": "settle_lag",
+          "type": "u64"
+        },
+        {
+          "name": "fee_per_action",
+          "type": "u64"
+        },
+        {
+          "name": "min_stake",
+          "type": "u64"
+        }
       ]
     },
     {
       "name": "register_l3",
+      "discriminator": [
+        7,
+        141,
+        70,
+        159,
+        96,
+        115,
+        200,
+        187
+      ],
       "accounts": [
-        { "name": "registry", "isMut": true, "isSigner": false },
-        { "name": "l3", "isMut": true, "isSigner": false },
-        { "name": "owner", "isMut": true, "isSigner": true },
-        { "name": "system_program", "isMut": false, "isSigner": false }
+        {
+          "name": "registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "l3",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  51
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "l3_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
       ],
       "args": [
-        { "name": "l3_id", "type": { "array": ["u8", 32] } },
-        { "name": "slot_time_ms", "type": "u32" },
-        { "name": "settle_interval_slots", "type": "u32" }
+        {
+          "name": "l3_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "slot_time_ms",
+          "type": "u32"
+        },
+        {
+          "name": "settle_interval_slots",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "register_sequencer",
+      "discriminator": [
+        117,
+        88,
+        134,
+        88,
+        232,
+        31,
+        66,
+        242
+      ],
+      "accounts": [
+        {
+          "name": "registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "sequencer",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  101,
+                  113,
+                  117,
+                  101,
+                  110,
+                  99,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "operator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "operator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "stake_amount",
+          "type": "u64"
+        }
       ]
     },
     {
       "name": "settle_state",
+      "discriminator": [
+        105,
+        166,
+        253,
+        255,
+        218,
+        112,
+        177,
+        178
+      ],
       "accounts": [
-        { "name": "registry", "isMut": true, "isSigner": false },
-        { "name": "l3", "isMut": true, "isSigner": false },
-        { "name": "sequencer", "isMut": true, "isSigner": false },
-        { "name": "settlement", "isMut": true, "isSigner": false },
-        { "name": "operator", "isMut": true, "isSigner": true },
-        { "name": "system_program", "isMut": false, "isSigner": false }
+        {
+          "name": "registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "l3",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  51
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "l3_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "sequencer",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  101,
+                  113,
+                  117,
+                  101,
+                  110,
+                  99,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "operator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "settlement",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  101,
+                  116,
+                  116,
+                  108,
+                  101,
+                  109,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "l3_id"
+              },
+              {
+                "kind": "arg",
+                "path": "to_slot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "operator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
       ],
       "args": [
-        { "name": "l3_id", "type": { "array": ["u8", 32] } },
-        { "name": "from_slot", "type": "u64" },
-        { "name": "to_slot", "type": "u64" },
-        { "name": "state_root", "type": { "array": ["u8", 32] } },
-        { "name": "action_count", "type": "u32" }
+        {
+          "name": "l3_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "from_slot",
+          "type": "u64"
+        },
+        {
+          "name": "to_slot",
+          "type": "u64"
+        },
+        {
+          "name": "state_root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "action_count",
+          "type": "u32"
+        }
       ]
     },
     {
       "name": "slash_sequencer",
+      "discriminator": [
+        129,
+        216,
+        182,
+        3,
+        45,
+        75,
+        136,
+        55
+      ],
       "accounts": [
-        { "name": "registry", "isMut": true, "isSigner": false },
-        { "name": "sequencer", "isMut": true, "isSigner": false },
-        { "name": "admin", "isMut": false, "isSigner": true }
+        {
+          "name": "registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "sequencer",
+          "writable": true
+        },
+        {
+          "name": "admin",
+          "signer": true,
+          "relations": [
+            "registry"
+          ]
+        }
       ],
       "args": [
-        { "name": "slash_amount", "type": "u64" },
-        { "name": "reason_code", "type": "u8" }
+        {
+          "name": "slash_amount",
+          "type": "u64"
+        },
+        {
+          "name": "reason_code",
+          "type": "u8"
+        }
       ]
     }
   ],
   "accounts": [
     {
+      "name": "L3Account",
+      "discriminator": [
+        57,
+        190,
+        61,
+        47,
+        233,
+        223,
+        219,
+        119
+      ]
+    },
+    {
+      "name": "Registry",
+      "discriminator": [
+        47,
+        174,
+        110,
+        246,
+        184,
+        182,
+        252,
+        218
+      ]
+    },
+    {
+      "name": "Sequencer",
+      "discriminator": [
+        32,
+        90,
+        96,
+        69,
+        186,
+        78,
+        195,
+        194
+      ]
+    },
+    {
+      "name": "Settlement",
+      "discriminator": [
+        55,
+        11,
+        219,
+        33,
+        36,
+        136,
+        40,
+        182
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "L3Registered",
+      "discriminator": [
+        139,
+        78,
+        59,
+        220,
+        242,
+        206,
+        19,
+        27
+      ]
+    },
+    {
+      "name": "RegistryInitialized",
+      "discriminator": [
+        144,
+        138,
+        62,
+        105,
+        58,
+        38,
+        100,
+        177
+      ]
+    },
+    {
+      "name": "SequencerRegistered",
+      "discriminator": [
+        247,
+        15,
+        55,
+        90,
+        26,
+        171,
+        181,
+        208
+      ]
+    },
+    {
+      "name": "SequencerSlashed",
+      "discriminator": [
+        150,
+        23,
+        15,
+        81,
+        134,
+        61,
+        201,
+        35
+      ]
+    },
+    {
+      "name": "StateSettled",
+      "discriminator": [
+        161,
+        22,
+        61,
+        118,
+        94,
+        137,
+        213,
+        237
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidParam",
+      "msg": "Invalid parameter"
+    },
+    {
+      "code": 6001,
+      "name": "StakeTooLow",
+      "msg": "Stake amount below minimum"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidSlotRange",
+      "msg": "Invalid slot range"
+    },
+    {
+      "code": 6003,
+      "name": "NonMonotonicSlot",
+      "msg": "Non-monotonic slot: from_slot must exceed last_settled_slot"
+    },
+    {
+      "code": 6004,
+      "name": "SettleLagNotMet",
+      "msg": "Settle lag not yet met: to_slot + settle_lag > current slot"
+    },
+    {
+      "code": 6005,
+      "name": "SequencerSlashed",
+      "msg": "Sequencer has reached max slashes"
+    },
+    {
+      "code": 6006,
+      "name": "SlashExceedsStake",
+      "msg": "Slash amount exceeds sequencer stake"
+    },
+    {
+      "code": 6007,
+      "name": "Overflow",
+      "msg": "Arithmetic overflow"
+    }
+  ],
+  "types": [
+    {
+      "name": "L3Account",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "l3_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "slot_time_ms",
+            "type": "u32"
+          },
+          {
+            "name": "settle_interval_slots",
+            "type": "u32"
+          },
+          {
+            "name": "last_settled_slot",
+            "type": "u64"
+          },
+          {
+            "name": "settlement_count",
+            "type": "u64"
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "L3Registered",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "l3_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Registry",
       "type": {
         "kind": "struct",
         "fields": [
-          { "name": "admin", "type": "publicKey" },
-          { "name": "fee_bps", "type": "u16" },
-          { "name": "buyback_bps", "type": "u16" },
-          { "name": "settle_lag", "type": "u64" },
-          { "name": "fee_per_action", "type": "u64" },
-          { "name": "min_stake", "type": "u64" },
-          { "name": "max_slashes", "type": "u8" },
-          { "name": "total_sequencers", "type": "u64" },
-          { "name": "total_l3s", "type": "u64" },
-          { "name": "total_settlements", "type": "u64" },
-          { "name": "bump", "type": "u8" }
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "buyback_bps",
+            "type": "u16"
+          },
+          {
+            "name": "settle_lag",
+            "type": "u64"
+          },
+          {
+            "name": "fee_per_action",
+            "type": "u64"
+          },
+          {
+            "name": "min_stake",
+            "type": "u64"
+          },
+          {
+            "name": "max_slashes",
+            "type": "u8"
+          },
+          {
+            "name": "total_sequencers",
+            "type": "u64"
+          },
+          {
+            "name": "total_l3s",
+            "type": "u64"
+          },
+          {
+            "name": "total_settlements",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RegistryInitialized",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "buyback_bps",
+            "type": "u16"
+          }
         ]
       }
     },
@@ -100,29 +752,74 @@
       "type": {
         "kind": "struct",
         "fields": [
-          { "name": "operator", "type": "publicKey" },
-          { "name": "stake", "type": "u64" },
-          { "name": "slash_count", "type": "u8" },
-          { "name": "settled_count", "type": "u64" },
-          { "name": "earnings", "type": "u64" },
-          { "name": "registered_at", "type": "i64" },
-          { "name": "bump", "type": "u8" }
+          {
+            "name": "operator",
+            "type": "pubkey"
+          },
+          {
+            "name": "stake",
+            "type": "u64"
+          },
+          {
+            "name": "slash_count",
+            "type": "u8"
+          },
+          {
+            "name": "settled_count",
+            "type": "u64"
+          },
+          {
+            "name": "earnings",
+            "type": "u64"
+          },
+          {
+            "name": "registered_at",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
         ]
       }
     },
     {
-      "name": "L3Account",
+      "name": "SequencerRegistered",
       "type": {
         "kind": "struct",
         "fields": [
-          { "name": "owner", "type": "publicKey" },
-          { "name": "l3_id", "type": { "array": ["u8", 32] } },
-          { "name": "slot_time_ms", "type": "u32" },
-          { "name": "settle_interval_slots", "type": "u32" },
-          { "name": "last_settled_slot", "type": "u64" },
-          { "name": "settlement_count", "type": "u64" },
-          { "name": "created_at", "type": "i64" },
-          { "name": "bump", "type": "u8" }
+          {
+            "name": "operator",
+            "type": "pubkey"
+          },
+          {
+            "name": "stake",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SequencerSlashed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "operator",
+            "type": "pubkey"
+          },
+          {
+            "name": "slash_amount",
+            "type": "u64"
+          },
+          {
+            "name": "reason_code",
+            "type": "u8"
+          },
+          {
+            "name": "new_stake",
+            "type": "u64"
+          }
         ]
       }
     },
@@ -131,36 +828,108 @@
       "type": {
         "kind": "struct",
         "fields": [
-          { "name": "l3_id", "type": { "array": ["u8", 32] } },
-          { "name": "from_slot", "type": "u64" },
-          { "name": "to_slot", "type": "u64" },
-          { "name": "state_root", "type": { "array": ["u8", 32] } },
-          { "name": "action_count", "type": "u32" },
-          { "name": "sequencer", "type": "publicKey" },
-          { "name": "settled_at", "type": "i64" },
-          { "name": "fee_total", "type": "u64" },
-          { "name": "fee_burn", "type": "u64" },
-          { "name": "fee_sequencer", "type": "u64" },
-          { "name": "bump", "type": "u8" }
+          {
+            "name": "l3_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "from_slot",
+            "type": "u64"
+          },
+          {
+            "name": "to_slot",
+            "type": "u64"
+          },
+          {
+            "name": "state_root",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "action_count",
+            "type": "u32"
+          },
+          {
+            "name": "sequencer",
+            "type": "pubkey"
+          },
+          {
+            "name": "settled_at",
+            "type": "i64"
+          },
+          {
+            "name": "fee_total",
+            "type": "u64"
+          },
+          {
+            "name": "fee_burn",
+            "type": "u64"
+          },
+          {
+            "name": "fee_sequencer",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StateSettled",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "l3_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "from_slot",
+            "type": "u64"
+          },
+          {
+            "name": "to_slot",
+            "type": "u64"
+          },
+          {
+            "name": "state_root",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "sequencer",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_total",
+            "type": "u64"
+          },
+          {
+            "name": "fee_burn",
+            "type": "u64"
+          }
         ]
       }
     }
-  ],
-  "events": [
-    { "name": "RegistryInitialized", "fields": [] },
-    { "name": "SequencerRegistered", "fields": [] },
-    { "name": "L3Registered", "fields": [] },
-    { "name": "StateSettled", "fields": [] },
-    { "name": "SequencerSlashed", "fields": [] }
-  ],
-  "errors": [
-    { "code": 6000, "name": "InvalidParam", "msg": "Invalid parameter" },
-    { "code": 6001, "name": "StakeTooLow", "msg": "Stake amount below minimum" },
-    { "code": 6002, "name": "InvalidSlotRange", "msg": "Invalid slot range" },
-    { "code": 6003, "name": "NonMonotonicSlot", "msg": "Non-monotonic slot" },
-    { "code": 6004, "name": "SettleLagNotMet", "msg": "Settle lag not yet met" },
-    { "code": 6005, "name": "SequencerSlashed", "msg": "Sequencer has reached max slashes" },
-    { "code": 6006, "name": "SlashExceedsStake", "msg": "Slash amount exceeds sequencer stake" },
-    { "code": 6007, "name": "Overflow", "msg": "Arithmetic overflow" }
   ]
 }

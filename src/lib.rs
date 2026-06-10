@@ -43,7 +43,7 @@ pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 pub const LICENSE_SPDX: &str = "Apache-2.0";
 
 /// Default Anchor settler program id on Solana mainnet (base58).
-pub const DEFAULT_PROGRAM_ID: &str = "ReplaSettLerXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+pub const DEFAULT_PROGRAM_ID: &str = "42LxZbUQHUSiBvuVzo1YtAxbjDbxLDLHNmQhyG5wabVV";
 
 /// Returns a short human-readable build banner. Use in CLI startup logs.
 pub fn build_banner() -> String {
