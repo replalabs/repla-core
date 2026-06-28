@@ -6,7 +6,7 @@
 //!
 //! ## Pieces
 //!
-//! - [`runtime`] -- the sequencer loop. Wraps MagicBlock ER with deterministic batching.
+//! - [`runtime`] -- the sequencer loop. Deterministic slot-based batching, designed to drive a MagicBlock ephemeral rollup.
 //! - [`settler`] -- on-chain settler client. Builds `settle_state` instructions.
 //! - [`state`] -- the canonical state delta + Borsh wire format.
 //! - [`hash`] -- the canonical state-root hash (also implemented in TypeScript for parity).
@@ -45,7 +45,7 @@ pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 /// Apache-2.0 license SPDX identifier, surfaced by the dashboard.
 pub const LICENSE_SPDX: &str = "Apache-2.0";
 
-/// Default Anchor settler program id on Solana mainnet (base58).
+/// Default Anchor settler program id on Solana devnet (base58).
 pub const DEFAULT_PROGRAM_ID: &str = "42LxZbUQHUSiBvuVzo1YtAxbjDbxLDLHNmQhyG5wabVV";
 
 /// Returns a short human-readable build banner. Use in CLI startup logs.
