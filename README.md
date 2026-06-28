@@ -68,7 +68,7 @@ Build the open-source crate locally and run the demo sequencer:
 
 ```bash
 git clone https://github.com/replalabs/repla-core.git
-cd repla
+cd repla-core
 cargo build --release
 cargo run --example launch_local
 ```
@@ -124,7 +124,7 @@ Every component that ever touches a state root -- Rust sequencer, TypeScript SDK
 
 > For each payload `p`, write `(p.len() as u32).to_le_bytes()` then `p` itself, into a SHA-256 hasher. The digest is the root.
 
-If you change the hash, you change parity. Property tests in [`tests/state_root_parity.rs`](./tests/state_root_parity.rs) keep the two implementations honest. The TypeScript twin lives in [`@repla/sdk-ts`](https://github.com/replalabs/repla-core/blob/main/packages/sdk-ts/src/state-root.ts).
+If you change the hash, you change parity. Property tests in [`tests/state_root_parity.rs`](./tests/state_root_parity.rs) keep the two implementations honest. The canonical length-prefixed root lives in [`src/hash.rs`](./src/hash.rs), and the TypeScript twin in `@repla/sdk-ts` is generated to match it byte for byte.
 
 ```rust
 let root = repla::hash::state_root(&[b"alpha", b"bravo", b"charlie"]);
