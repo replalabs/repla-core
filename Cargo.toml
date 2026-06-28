@@ -2,13 +2,13 @@
 name = "repla"
 version = "0.1.0"
 edition = "2021"
-description = "Solana app-specific rollup framework for games -- MagicBlock sequencer runtime + Anchor settler + engine SDKs."
+description = "Solana app-specific rollup framework for games -- a sequencer runtime, Anchor settler, and engine SDKs, designed for MagicBlock ephemeral rollups."
 license = "Apache-2.0"
 repository = "https://github.com/replalabs/repla-core"
 homepage = "https://repla.fun"
 documentation = "https://repla.fun/docs"
 readme = "README.md"
-keywords = ["solana", "magicblock", "rollup", "l3", "anchor"]
+keywords = ["solana", "sequencer", "rollup", "l3", "anchor"]
 categories = ["development-tools", "web-programming", "game-development"]
 
 [lib]
