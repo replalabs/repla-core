@@ -31,10 +31,16 @@ pub fn build_settle_args(
     last_settled: u64,
 ) -> Result<SettleStateArgs, SettleError> {
     if to_slot < from_slot {
-        return Err(SettleError::InvalidSlotRange { from: from_slot, to: to_slot });
+        return Err(SettleError::InvalidSlotRange {
+            from: from_slot,
+            to: to_slot,
+        });
     }
     if from_slot <= last_settled {
-        return Err(SettleError::NonMonotonic { from: from_slot, last: last_settled });
+        return Err(SettleError::NonMonotonic {
+            from: from_slot,
+            last: last_settled,
+        });
     }
     Ok(SettleStateArgs {
         l3_id,

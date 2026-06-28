@@ -99,7 +99,12 @@ impl SequencerRuntime {
                     state_root: root,
                     action_count: batch_count,
                 };
-                info!(from = batch_from, to = slot, actions = batch_count, "emit delta");
+                info!(
+                    from = batch_from,
+                    to = slot,
+                    actions = batch_count,
+                    "emit delta"
+                );
                 if on_delta(delta).await.is_ok() {
                     *self.last_settled_slot.write().await = slot;
                 }

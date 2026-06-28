@@ -33,7 +33,9 @@ impl StateDelta {
 /// Convenience: turn a 64-character hex string into the 32-byte L3 ID used as a PDA seed.
 pub fn l3_id_from_hex(hex: &str) -> Result<L3Id, &'static str> {
     let s = hex.strip_prefix("0x").unwrap_or(hex);
-    if s.len() != 64 { return Err("expected 64 hex chars"); }
+    if s.len() != 64 {
+        return Err("expected 64 hex chars");
+    }
     let mut out = [0u8; 32];
     for (i, chunk) in s.as_bytes().chunks(2).enumerate() {
         let hi = decode_nibble(chunk[0])?;

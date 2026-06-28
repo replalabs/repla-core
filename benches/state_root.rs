@@ -14,5 +14,9 @@ fn state_root_is_under_microseconds_per_kbyte() {
         let _ = state_root(&refs);
     }
     let elapsed = start.elapsed();
-    assert!(elapsed.as_millis() < 200, "state_root too slow: {:?}", elapsed);
+    assert!(
+        elapsed.as_millis() < 200,
+        "state_root too slow: {:?}",
+        elapsed
+    );
 }

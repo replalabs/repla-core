@@ -39,7 +39,10 @@ async fn main() -> Result<()> {
     rt.run(|delta| async move {
         println!(
             "settled · slot={}..{} · actions={} · root[..4]={:02x?}",
-            delta.from_slot, delta.to_slot, delta.action_count, &delta.state_root[..4],
+            delta.from_slot,
+            delta.to_slot,
+            delta.action_count,
+            &delta.state_root[..4],
         );
         Ok(())
     })

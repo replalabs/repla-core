@@ -26,19 +26,29 @@ pub fn compute(cfg: FeeConfig, action_count: u32) -> FeeSplit {
     let total = cfg.per_action_lamports.saturating_mul(action_count as u64);
     let burn = total.saturating_mul(cfg.buyback_bps as u64) / 10_000;
     let sequencer = total.saturating_sub(burn);
-    FeeSplit { total, burn, sequencer }
+    FeeSplit {
+        total,
+        burn,
+        sequencer,
+    }
 }
 
 /// Reverse of `compute`: what action count would have produced this fee total?
 /// Useful for replay / accounting cross-checks against on-chain Settlement records.
 pub fn actions_for_total(cfg: FeeConfig, total: u64) -> u64 {
-    if cfg.per_action_lamports == 0 { return 0; }
+    if cfg.per_action_lamports == 0 {
+        return 0;
+    }
     total / cfg.per_action_lamports
 }
 
 /// Apply a registered fee config to an iterator of action batches and return the cumulative split.
 pub fn aggregate<I: IntoIterator<Item = u32>>(cfg: FeeConfig, batches: I) -> FeeSplit {
-    let mut sum = FeeSplit { total: 0, burn: 0, sequencer: 0 };
+    let mut sum = FeeSplit {
+        total: 0,
+        burn: 0,
+        sequencer: 0,
+    };
     for n in batches {
         let s = compute(cfg, n);
         sum.total = sum.total.saturating_add(s.total);
@@ -62,14 +72,26 @@ mod tests {
 
     #[test]
     fn burn_zero_when_bps_zero() {
-        let s = compute(FeeConfig { per_action_lamports: 1_000, buyback_bps: 0 }, 10);
+        let s = compute(
+            FeeConfig {
+                per_action_lamports: 1_000,
+                buyback_bps: 0,
+            },
+            10,
+        );
         assert_eq!(s.burn, 0);
         assert_eq!(s.sequencer, 10_000);
     }
 
     #[test]
     fn burn_total_when_bps_max() {
-        let s = compute(FeeConfig { per_action_lamports: 1_000, buyback_bps: 10_000 }, 10);
+        let s = compute(
+            FeeConfig {
+                per_action_lamports: 1_000,
+                buyback_bps: 10_000,
+            },
+            10,
+        );
         assert_eq!(s.burn, 10_000);
         assert_eq!(s.sequencer, 0);
     }
