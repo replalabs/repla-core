@@ -10,6 +10,7 @@
 //! - [`settler`] -- on-chain settler client. Builds `settle_state` instructions.
 //! - [`state`] -- the canonical state delta + Borsh wire format.
 //! - [`hash`] -- the canonical state-root hash (also implemented in TypeScript for parity).
+//! - [`merkle`] -- a binary Merkle tree for per-action membership proofs.
 //! - [`fee`] -- fee math (action × per-action × buyback split).
 //!
 //! ## Quickstart
@@ -29,12 +30,14 @@
 
 pub mod fee;
 pub mod hash;
+pub mod merkle;
 pub mod runtime;
 pub mod settler;
 pub mod state;
 
-pub use state::{Action, StateDelta};
+pub use merkle::{leaf_hash, merkle_root, verify_merkle_proof};
 pub use runtime::{SequencerConfig, SequencerRuntime};
+pub use state::{Action, StateDelta};
 
 /// Crate version as exposed in `--version` flags and health probes.
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
