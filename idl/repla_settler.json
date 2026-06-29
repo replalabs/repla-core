@@ -4,7 +4,7 @@
     "name": "repla_settler",
     "version": "0.1.0",
     "spec": "0.1.0",
-    "description": "REPLA Anchor settler -- settles L3 game state to Solana devnet."
+    "description": "REPLA Anchor settler -- settles L3 game state to Solana mainnet."
   },
   "instructions": [
     {
@@ -208,6 +208,32 @@
                   99,
                   101,
                   114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "operator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "stake_vault",
+          "docs": [
+            "Per-operator stake escrow PDA (system-owned, lamports only). Funded by",
+            "the real transfer in the handler."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
                 ]
               },
               {
@@ -426,11 +452,66 @@
           "writable": true
         },
         {
+          "name": "stake_vault",
+          "docs": [
+            "Slashed operator's stake vault. Derived from the sequencer's recorded",
+            "operator so the admin cannot point it at an unrelated vault."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "sequencer.operator",
+                "account": "Sequencer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury",
+          "docs": [
+            "Protocol treasury PDA (system-owned). Receives the slashed lamports."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
           "name": "admin",
           "signer": true,
           "relations": [
             "registry"
           ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": [
@@ -441,6 +522,113 @@
         {
           "name": "reason_code",
           "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_stake",
+      "docs": [
+        "Withdraw escrowed stake from the operator's vault back to the operator.",
+        "Required so escrow is reversible -- without it, registered stake would be",
+        "locked forever. Reduces the recorded `stake` by `amount`; the vault (a",
+        "system-owned PDA) signs its own outgoing transfer."
+      ],
+      "discriminator": [
+        153,
+        8,
+        22,
+        138,
+        105,
+        176,
+        87,
+        66
+      ],
+      "accounts": [
+        {
+          "name": "registry",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "sequencer",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  101,
+                  113,
+                  117,
+                  101,
+                  110,
+                  99,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "operator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "stake_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "operator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "operator",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "sequencer"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
         }
       ]
     }
@@ -553,6 +741,32 @@
       ]
     },
     {
+      "name": "StakeEscrowed",
+      "discriminator": [
+        132,
+        65,
+        196,
+        202,
+        45,
+        89,
+        83,
+        237
+      ]
+    },
+    {
+      "name": "StakeWithdrawn",
+      "discriminator": [
+        33,
+        120,
+        159,
+        58,
+        140,
+        255,
+        174,
+        79
+      ]
+    },
+    {
       "name": "StateSettled",
       "discriminator": [
         161,
@@ -606,6 +820,11 @@
       "code": 6007,
       "name": "Overflow",
       "msg": "Arithmetic overflow"
+    },
+    {
+      "code": 6008,
+      "name": "WithdrawExceedsStake",
+      "msg": "Withdraw amount exceeds escrowed stake"
     }
   ],
   "types": [
@@ -881,6 +1100,46 @@
           {
             "name": "bump",
             "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeEscrowed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "operator",
+            "type": "pubkey"
+          },
+          {
+            "name": "vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeWithdrawn",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "operator",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "remaining_stake",
+            "type": "u64"
           }
         ]
       }
