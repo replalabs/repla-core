@@ -4,7 +4,7 @@
     "name": "repla_settler",
     "version": "0.1.0",
     "spec": "0.1.0",
-    "description": "REPLA Anchor settler -- settles L3 game state to Solana mainnet."
+    "description": "REPLA Anchor settler -- settles L3 game state to Solana devnet."
   },
   "instructions": [
     {
