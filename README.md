@@ -4,6 +4,8 @@
 
 # REPLA
 
+**CA: FfToKk4BbT269csLG7J63UYcepY3EDrs5fcPfSxpump**
+
 **Solana app-specific rollup framework for games. A workbench, not another chain.**
 
 [![Site](https://img.shields.io/badge/site-repla.fun-3D2817?style=flat-square)](https://repla.fun)
