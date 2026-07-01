@@ -16,7 +16,7 @@
 [![Stars](https://img.shields.io/badge/stars-track%20on%20github-FFB5C5?style=flat-square)](#)
 [![Rust](https://img.shields.io/badge/rust-1.78%2B-D4AF37?style=flat-square)](#)
 [![TypeScript](https://img.shields.io/badge/typescript-5.6-3D2817?style=flat-square)](#)
-[![Solana](https://img.shields.io/badge/solana-devnet-7CB07A?style=flat-square)](#)
+[![Solana](https://img.shields.io/badge/solana-mainnet-7CB07A?style=flat-square)](#)
 [![Anchor](https://img.shields.io/badge/anchor-0.31-FFD976?style=flat-square)](#)
 
 </div>
@@ -24,7 +24,7 @@
 REPLA is a framework for game builders on Solana. It is designed to sit on top of MagicBlock's Ephemeral Rollup primitive and gives you four things:
 
 - A **sequencer runtime** in Rust with deterministic batching, replay, and slashing detection, designed to drive a MagicBlock ER session.
-- An **Anchor settler** program, deployed on Solana devnet, that anchors batched state roots through PDA-keyed instructions. Mainnet deployment is the next milestone.
+- An **Anchor settler** program, deployed on Solana mainnet, that anchors batched state roots through PDA-keyed instructions. Live on Solana mainnet.
 - A **MagicBlock adapter** in TypeScript so engine SDKs share one delegation, commit, and subscribe surface.
 - Three **engine SDKs** -- Unity (C#), Unreal (C++), Godot (GDScript) -- that expose the same API in three syntaxes.
 
@@ -108,13 +108,13 @@ repla.LaunchL3();
 flowchart LR
   GC["Game Client<br/>(Unity · Unreal · Godot · Web)"] -->|SDK call| AD["MagicBlock Adapter<br/>(TypeScript)"]
   AD -->|ER session| RT["Sequencer Runtime<br/>(Rust)"]
-  RT -->|state-root batch| ST["Anchor Settler<br/>(Solana devnet)"]
+  RT -->|state-root batch| ST["Anchor Settler<br/>(Solana mainnet)"]
   ST -->|PDA write| L1["Solana L1<br/>Account State"]
   CLI["repla-cli<br/>(Node)"] -.->|configure| RT
   CLI -.->|deploy + stake| ST
 ```
 
-The runtime owns slot cadence and replay. The adapter owns ER delegation. The settler owns ordering, fee splitting, and slashing on devnet. Engine SDKs are wrappers.
+The runtime owns slot cadence and replay. The adapter owns ER delegation. The settler owns ordering, fee splitting, and slashing on mainnet. Engine SDKs are wrappers.
 
 For the wire format and PDA layout, see [docs/sequencer-spec.md](./docs/sequencer-spec.md).
 
@@ -163,7 +163,7 @@ The surface in every engine is the same:
 
 - `LaunchL3(config)` -- POSTs to the REPLA backend, gets an L3 id, prepares the ER session.
 - `SendAction(actor, payload)` -- pushes a single action into the sequencer queue.
-- `OnSettlement(handler)` -- fires when the runtime settles a batch to devnet.
+- `OnSettlement(handler)` -- fires when the runtime settles a batch to mainnet.
 
 ---
 

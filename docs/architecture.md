@@ -16,7 +16,7 @@ flowchart TD
     RT[sequencer-runtime]
   end
   subgraph Onchain
-    ST[anchor-settler<br/>Solana devnet]
+    ST[anchor-settler<br/>Solana mainnet]
     L1[Solana L1]
   end
   U --> AD
@@ -41,4 +41,4 @@ Three reasons:
 
 1. The slot pressure model on Solana L1 is set by AMMs and oracles. A 60-tick combat loop sharing fee market with a derivative liquidation queue is bad for everyone.
 2. An L3 lets the game pick a slot time, a settle cadence, and a sequencer set that match its loop -- without negotiating with the rest of Solana.
-3. Cross-game composability still works because the settler is on devnet. Any other Solana program can read a settled root.
+3. Cross-game composability still works because the settler is on mainnet. Any other Solana program can read a settled root.
